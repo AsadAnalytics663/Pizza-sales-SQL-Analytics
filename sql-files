@@ -2,7 +2,7 @@ SELECT
     COUNT(order_id) AS total_orders
 FROM
     orders;
--------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 SELECT 
     pizza_types.category,
     SUM(order_details.quantity * pizzas.price) AS revenue
