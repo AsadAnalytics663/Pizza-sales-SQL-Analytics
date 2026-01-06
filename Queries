@@ -3,6 +3,7 @@ SELECT
 FROM
     orders;
 ---------------------------------------------------------------------------------------
+2.Total revenue generated on sales
 SELECT 
     pizza_types.category,
     SUM(order_details.quantity * pizzas.price) AS revenue
