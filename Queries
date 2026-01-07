@@ -1,22 +1,13 @@
+pizza_sales_analysis_presentation.pdf – Canva presentation.
+queries/ –
+1.Total numbers of orders placed
 SELECT 
     COUNT(order_id) AS total_orders
 FROM
     orders;
 ---------------------------------------------------------------------------------------
-2.Total revenue generated on sales
+2.CATEGORICAL RANKING
 SELECT 
-    pizza_types.category,
-    SUM(order_details.quantity * pizzas.price) AS revenue
-FROM
-    pizza_types
-        JOIN
-    pizzas ON pizza_types.pizza_type_id = pizzas.pizza_type_id
-        JOIN
-    order_details ON order_details.pizza_id = pizzas.pizza_id
-GROUP BY pizza_types.category
-ORDER BY revenue DESC;
-----------------------------------------------------------------------------------------
- SELECT 
     pizza_types.category,
     ROUND(SUM(order_details.quantity * pizzas.price),
             2) AS revenue
@@ -29,6 +20,7 @@ FROM
 GROUP BY pizza_types.category
 ORDER BY revenue DESC;
 ------------------------------------------------------------------------------------------ 
+3.Top 3 ranking on each categories based on revenue
 select name, revenue,rn from
 (select category, name, revenue,
 rank() over(partition by category order by revenue desc) as rn
@@ -46,6 +38,7 @@ FROM
 GROUP BY pizza_types.category , pizza_types.name) as a) as b
 where rn <= 3;
 ---------------------------------------------------------------------------------------------------
+4.Cumulative sum over Time
 select order_date,
 sum(revenue) over(order by order_date) as cum_revenue
 from
@@ -60,6 +53,7 @@ FROM
     orders ON orders.order_id = order_details.order_id
 GROUP BY orders.order_date) as sales;
 ---------------------------------------------------------------------------------------------------
+5.Total revenue generated on sales
 SELECT 
     ROUND(SUM(order_details.quantity * pizzas.price),
             2) AS total_sales
